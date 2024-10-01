@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/course")
 public class CourseController {
     private final CourseService courseService;

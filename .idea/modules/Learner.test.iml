@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
   <component name="AdditionalModuleElements">
-    <content url="file://$MODULE_DIR$/../../Learner/build/generated/sources/annotationProcessor/java/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../Learner/build/generated/sources/annotationProcessor/java/test" isTestSource="true" generated="true" />
+    <content url="file://$MODULE_DIR$/../../Learner/src/main/generated">
+      <sourceFolder url="file://$MODULE_DIR$/../../Learner/src/main/generated" isTestSource="true" generated="true" />
     </content>
-  </component>
-  <component name="FacetManager">
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping>
-          <factory-entry name="Learner.test" value="d5fd112e-a27f-4be9-883e-1a2ca01bb501" />
-          <factory-entry name="entityManagerFactory" />
-        </datasource-mapping>
-        <naming-strategy-map />
-      </configuration>
-    </facet>
   </component>
 </module>
