@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -8,6 +8,7 @@ const defaultImage = "/images/course_default_img.png";
 
 const CourseDetail = () => {
     const { courseId } = useParams(); // URL에서 courseId 가져오기
+    const navigate = useNavigate(); //useNavigate 추가
     const [course, setCourse] = useState(null);
     const [activeTab, setActiveTab] = useState("curriculum");
     const [inquiries, setInquiries] = useState([]); // 강의 문의 데이터를 저장할 상태
@@ -137,7 +138,7 @@ const CourseDetail = () => {
                                     {selectedInquiry ? (
                                         <WriteButton onClick={() => setSelectedInquiry(null)}>이전 목록으로</WriteButton> // 이전 목록으로 버튼
                                     ) : (
-                                        <WriteButton>글 작성하기</WriteButton> // 글 작성하기 버튼
+                                        <WriteButton onClick={() => navigate(`/courses/${courseId}/post`)}>글 작성하기</WriteButton> // 글 작성하기 버튼
                                     )}
                                 </ButtonContainer>
 
@@ -314,6 +315,13 @@ const AnswerForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 20px;  /* 내부 여백 추가 */
+    background-color: #f9f9f9;  /* 배경색 설정 */
+    border-radius: 10px;  /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* 그림자 추가 */
+    max-width: 800px;  /* 최대 너비 설정 */
+    width: 100%;  /* 너비를 100%로 설정 */
+    box-sizing: border-box;  /* 패딩 포함한 너비 계산 */
 `;
 
 const SubmitButton = styled.button`

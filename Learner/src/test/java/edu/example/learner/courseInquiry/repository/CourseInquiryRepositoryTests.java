@@ -31,8 +31,8 @@ public class CourseInquiryRepositoryTests {
     @DisplayName("강의 문의 등록 테스트")
     public void testRegister() {
         CourseInquiryDTO courseInquiryDTO = CourseInquiryDTO.builder()
-                .courseId(2L)
-                .memberId(5L)
+                .courseId(1L)
+                .memberId(1L)
                 .inquiryTitle("Test Inquiry Title")
                 .inquiryContent("Test Inquiry Content")
                 .createdDate(LocalDateTime.now())
@@ -72,8 +72,8 @@ public class CourseInquiryRepositoryTests {
     public void testUpdate() {
         // 초기 데이터 세팅
         CourseInquiryDTO courseInquiryDTO = CourseInquiryDTO.builder()
-                .courseId(3L)
-                .memberId(3L)
+                .courseId(1L)
+                .memberId(1L)
                 .inquiryTitle("Update Test")
                 .inquiryContent("Before update.")
                 .inquiryStatus(InquiryStatus.PENDING)
@@ -112,8 +112,8 @@ public class CourseInquiryRepositoryTests {
     @DisplayName("강의 문의 삭제 테스트")
     public void testDelete() {
         CourseInquiry courseInquiry = CourseInquiry.builder()
-                .courseId(2L)
-                .memberId(2L)
+                .courseId(1L)
+                .memberId(1L)
                 .inquiryTitle("Delete Test")
                 .inquiryContent("This will be deleted.")
                 .inquiryStatus(InquiryStatus.PENDING)

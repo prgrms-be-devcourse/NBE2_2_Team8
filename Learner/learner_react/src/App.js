@@ -26,6 +26,7 @@ function App() {
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/courses/:courseId" element={<CourseDetail />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/courses/:courseId/post" element={<PostCourseInquiry />} />
             </Routes>
         </Router>
     );
