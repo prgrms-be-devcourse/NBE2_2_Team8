@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 
 // 기본 배너 이미지 경로 설정
@@ -52,11 +52,11 @@ const Courses = () => {
             <CourseList>
                 {/* 검색된 강의가 있으면 해당 강의만 표시 */}
                 {searchedCourse ? (
-                    <CourseItem key={searchedCourse.courseId} course={searchedCourse} navigate={navigate} />
+                    <CourseItem key={searchedCourse.courseId} course={searchedCourse} navigate={navigate}/>
                 ) : (
                     courses.length > 0 ? (
                         courses.map((course) => (
-                            <CourseItem key={course.courseId} course={course} navigate={navigate} />
+                            <CourseItem key={course.courseId} course={course} navigate={navigate}/>
                         ))
                     ) : (
                         <p>강의를 불러오는 중입니다...</p>
@@ -67,14 +67,14 @@ const Courses = () => {
     );
 };
 
-const CourseItem = ({ course, navigate }) => {
+const CourseItem = ({course, navigate}) => {
     const handleClick = () => {
         navigate(`/courses/${course.courseId}`);
     };
 
     return (
         <StyledCourseItem onClick={handleClick}>
-            <CourseImage src={defaultImage} alt="Course Banner" /> {/* 기본 이미지 */}
+            <CourseImage src={defaultImage} alt="Course Banner"/> {/* 기본 이미지 */}
             <h3>{course.courseName}</h3>
             <p>{course.instructorName}</p>
             <p>{course.coursePrice}원</p>
@@ -85,69 +85,70 @@ const CourseItem = ({ course, navigate }) => {
 export default Courses;
 
 const CoursePage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
 `;
 
 const CourseList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledCourseItem = styled.div`
-  border: 1px solid #ddd;
-  padding: 1.5rem;
-  width: 300px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  &:hover {
-    background-color: #f9f9f9;
-  }
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f9f9f9;
+    }
 `;
 
 const SearchContainer = styled.div`
-  text-align: center;
-  margin-bottom: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
 `;
 
 const SearchInputContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
 `;
 
 const SearchInput = styled.input`
-  width: 500px;
-  padding: 1rem;
-  border-radius: 50px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  text-align: center;
-  background-color: #f5f5f5;
+    width: 500px;
+    padding: 1rem;
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    text-align: center;
+    background-color: #f5f5f5;
 `;
 
 const SearchButton = styled.button`
-  margin-left: -3rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #555;
+    margin-left: -3rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
 `;
 
 const CourseImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 1rem;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
 `;

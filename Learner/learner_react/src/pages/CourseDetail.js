@@ -134,8 +134,13 @@ const CourseDetail = () => {
                         ) : (
                             <>
                                 <ButtonContainer>
-                                    <WriteButton>글 작성하기</WriteButton> {/* 글 작성하기 버튼 */}
+                                    {selectedInquiry ? (
+                                        <WriteButton onClick={() => setSelectedInquiry(null)}>이전 목록으로</WriteButton> // 이전 목록으로 버튼
+                                    ) : (
+                                        <WriteButton>글 작성하기</WriteButton> // 글 작성하기 버튼
+                                    )}
                                 </ButtonContainer>
+
                                 {selectedInquiry ? (
                                     loadingDetail ? (
                                         <p>문의 상세 정보를 로딩 중입니다...</p>
@@ -143,9 +148,9 @@ const CourseDetail = () => {
                                         <>
                                             <InquiryDetail>
                                                 <h3>{selectedInquiry.inquiryTitle}</h3>
-                                                <p><strong>문의 내용 :</strong> {selectedInquiry.inquiryContent}</p>
-                                                <p><strong>작성자 :</strong> {selectedInquiry.memberId}</p>
-                                                <p><strong>작성일 :</strong> {new Date(selectedInquiry.createdDate).toLocaleDateString()}</p>
+                                                <p><strong>문의 내용:</strong> {selectedInquiry.inquiryContent}</p>
+                                                <p><strong>작성자:</strong> {selectedInquiry.memberId}</p>
+                                                <p><strong>작성일:</strong> {new Date(selectedInquiry.createdDate).toLocaleDateString()}</p>
                                             </InquiryDetail>
 
                                             {/* 답변 목록 */}
@@ -154,8 +159,8 @@ const CourseDetail = () => {
                                                 {answers.length > 0 ? (
                                                     answers.map((answer) => (
                                                         <AnswerItem key={answer.answerId}>
-                                                            <p><strong>답변 내용 :</strong> {answer.answerContent}</p>
-                                                            <p><strong>작성일 :</strong> {new Date(answer.answerCreatedDate).toLocaleDateString()}</p>
+                                                            <p><strong>답변 내용:</strong> {answer.answerContent}</p>
+                                                            <p><strong>작성일:</strong> {new Date(answer.createdDate).toLocaleDateString()}</p>
                                                         </AnswerItem>
                                                     ))
                                                 ) : (
