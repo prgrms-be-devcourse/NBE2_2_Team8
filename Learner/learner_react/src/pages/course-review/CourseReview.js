@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const CourseReview = ({ courseId }) => {
+    const navigate = useNavigate();
     const [reviewList, setReviewList] = useState([]);
     const [userNickname, setUserNickname] = useState('');
     const [userId, setUserId] = useState('');
@@ -86,6 +88,22 @@ const CourseReview = ({ courseId }) => {
         return date.toLocaleString('ko-KR', options).replace(',', '');
     };
 
+    //작성자 프로필 이동
+    const handleMemberClick = (memberId) => {
+        console.log('memberId:', memberId);
+
+        axios
+            .get(`http://localhost:8080/members/${memberId}`, { withCredentials: true })
+            .then((response) => {
+                const memberData = response.data;
+                console.log("Member data:", memberData);
+                navigate(`/members/${memberId}`, { state: { memberData } });  // 사용자 정보 페이지로 이동
+            })
+            .catch((error) => {
+                console.error("Error fetching member details:", error);
+            });
+    };
+
     return (
         <div className="review-container">
             <h2 className="review-header">과정 리뷰</h2>
@@ -100,12 +118,19 @@ const CourseReview = ({ courseId }) => {
                             <h3 className="review-title">{review.reviewName}</h3>
                             <p className="review-detail">{review.reviewDetail}</p>
                             <span className="review-rating">평점: {review.rating} / 5</span>
-                            <p className="review-author">
-                                <Link
-                                    to={userId === review.writerId ? `/내정보` : `/members/other/${review.writerName}`}>
-                                    작성자: {review.writerName}
-                                </Link>
-                            </p>
+                            <div>
+                                <span
+                                    style={{
+                                        cursor: "pointer",
+                                        textDecoration: "underline",
+                                        color: "blue",
+                                        marginRight: "10px" // 간격 조정
+                                    }}
+                                    onClick={() => handleMemberClick(review.writerId)}
+                                >
+                                                작성자: {review.writerName || '알 수 없음'}
+                                </span>
+                            </div>
                             <p className="review-updatedDate"> 수정일 : {formatDate(review.reviewUpdatedDate)}</p>
                         </div>
                         <div className="button-group">
