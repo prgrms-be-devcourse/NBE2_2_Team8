@@ -49,13 +49,13 @@ const CourseReview = ({ courseId }) => {
     }, [courseId]);
 
     const handleDelete = (reviewId) => {
-        const token = localStorage.getItem("memberId");
+        const token = localStorage.getItem("Authorization");
         if (window.confirm("정말 삭제하시겠습니까?")) {
             fetch(`http://localhost:8080/course/${courseId}/reviews/${reviewId}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
-                    'memberId': token
+                    "Authorization": `Bearer ${token}`, // Authorization 헤더에 토큰 추가
                 },
                 credentials: 'include',
                 body: JSON.stringify({ writerId })

@@ -15,5 +15,7 @@ public interface ReviewService {
 
     List<ReviewDTO> getCourseReviewList(Long courseId);
     List<ReviewDTO> getInstructorReviewList(Long courseId, String nickname);
+
+    ReviewDTO readReview(String nickname, Long reviewId);
 }
 

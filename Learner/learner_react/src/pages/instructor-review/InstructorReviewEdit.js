@@ -43,6 +43,8 @@ const InstructorReviewEdit = () => {
             .catch(err => console.error("강의 목록 가져오기 실패:", err));
     }, [nickname, reviewId]);
 
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -113,11 +115,13 @@ const InstructorReviewEdit = () => {
                     <Label>강의 선택:</Label>
                     <Select value={selectedCourseId} onChange={(e) => setSelectedCourseId(e.target.value)} required>
                         <option value="">강의를 선택하세요</option>
-                        {courses.map((course) => (
-                            <option key={course.courseId} value={course.courseId}>
-                                {course.courseName} {/* courseName을 사용하여 강의 이름 표시 */}
-                            </option>
-                        ))}
+                        {courses
+                            .filter(course => course.memberNickname === nickname) // nickname과 일치하는 강의만 필터링
+                            .map((course) => (
+                                <option key={course.courseId} value={course.courseId}>
+                                    {course.courseName} {/* courseName을 사용하여 강의 이름 표시 */}
+                                </option>
+                            ))}
                     </Select>
                 </InputContainer>
                 <ButtonContainer>

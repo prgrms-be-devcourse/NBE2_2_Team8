@@ -6,6 +6,7 @@ import edu.example.learner.courseabout.coursereview.entity.ReviewType;
 import edu.example.learner.courseabout.coursereview.service.ReviewServiceImpl;
 import edu.example.learner.member.service.MemberService;
 import edu.example.learner.security.auth.CustomUserPrincipal;
+import io.lettuce.core.dynamic.annotation.Param;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,11 +37,18 @@ public class CourseReviewController {
         return ResponseEntity.ok(reviewService.createReview(reviewDTO, ReviewType.COURSE));
     }
 
+    @GetMapping("/{reviewId}")
+    @Operation(summary = "Course Review 조회", description = "강의 리뷰를 조회합니다.")
+    public ResponseEntity<ReviewDTO> read(
+            @Parameter(description = "강의 ID") @PathVariable Long courseId,
+            @Parameter(description = "강의 리뷰 ID") @PathVariable("reviewId") Long reviewId) {
+        return ResponseEntity.ok(reviewService.readReview(courseId, reviewId));
+    }
 
     @PutMapping("/{reviewId}")
     @Operation(summary = "Course Review 수정", description = "강의 리뷰를 수정합니다.")
     public ResponseEntity<ReviewDTO> update(
-            @Parameter(description = "강의 리뷰 Id") @PathVariable("reviewId") Long reviewId,
+            @Parameter(description = "강의 리뷰 ID") @PathVariable("reviewId") Long reviewId,
             @Parameter(description = "강의 리뷰 데이터") @RequestBody ReviewDTO reviewDTO) {
         log.info("update Review: " + reviewDTO);
         return ResponseEntity.ok(reviewService.updateReview(reviewId, reviewDTO));
@@ -49,7 +57,7 @@ public class CourseReviewController {
     @DeleteMapping("/{reviewId}")
     @Operation(summary = "Course Review 삭제", description = "강의 리뷰를 삭제합니다.")
     public ResponseEntity<Map<String, String>> remove(
-            @Parameter(description = "강의 리뷰 Id") @PathVariable("reviewId") Long reviewId,
+            @Parameter(description = "강의 리뷰 ID") @PathVariable("reviewId") Long reviewId,
             @Parameter(description = "강의 리뷰 데이터") @RequestBody ReviewDTO reviewDTO) {
         log.info("Delete Review: " + reviewId);
         reviewService.deleteReview(reviewId, reviewDTO);
@@ -57,8 +65,9 @@ public class CourseReviewController {
     }
 
     @GetMapping("/list")
-    @Operation(summary = "Course Review list 조회", description = "강의 리뷰를 조회합니다.")
-    public ResponseEntity<List<ReviewDTO>> reviewList(@PathVariable("courseId") Long courseId) {
+    @Operation(summary = "Course Review list 조회", description = "강의 리뷰 리스트를 조회합니다.")
+    public ResponseEntity<List<ReviewDTO>> reviewList(
+            @Parameter(description = "강의 ID")@PathVariable("courseId") Long courseId) {
         return ResponseEntity.ok(reviewService.getCourseReviewList(courseId));
     }
 }

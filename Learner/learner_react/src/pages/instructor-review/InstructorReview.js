@@ -87,7 +87,7 @@ const InstructorReview = () => {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
-                    'memberId': token
+                    "Authorization": `Bearer ${token}`, // Authorization 헤더에 토큰 추가
                 },
                 credentials: 'include',
                 body: JSON.stringify({ writerId })

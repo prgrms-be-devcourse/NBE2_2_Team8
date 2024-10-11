@@ -7,7 +7,6 @@ import edu.example.learner.courseabout.coursereview.entity.Review;
 import edu.example.learner.courseabout.coursereview.entity.ReviewType;
 import edu.example.learner.courseabout.exception.ReviewException;
 import edu.example.learner.courseabout.coursereview.repository.ReviewRepository;
-import edu.example.learner.courseabout.exception.ReviewTaskException;
 import edu.example.learner.member.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,6 @@ public class ReviewServiceImpl implements ReviewService {
 
             if (reviewDTO.getWriterId() == null) {
                 throw ReviewException.NOT_LOGIN.get();
-            }else if (reviewDTO.getWriterId().equals(course.getMember().getMemberId())) {
-                throw ReviewException.INSTRUCTOR_NOT_REGISTERD.get();
             }
 
             reviewDTO.setReviewType(reviewType);
@@ -72,6 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviewDTO.getRating() == 0) {
             reviewDTO.setRating(1);
         }
+        reviewDTO.setReviewDetail(review.getReviewDetail());
 
         Review newReview = reviewDTO.toEntity();
 
@@ -90,6 +88,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void deleteReview(Long reviewId, ReviewDTO reviewDTO) {
+        log.info(reviewDTO);
         Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewException.NOT_FOUND::get);
 
         if (review.getMember().getMemberId() != reviewDTO.getWriterId()) {
@@ -167,4 +166,63 @@ public class ReviewServiceImpl implements ReviewService {
 
         return reviewDTOList;
     }
+
+    @Override
+    public ReviewDTO readReview(String nickname, Long reviewId) {
+        List<Review> reviewList = reviewRepository.getInstructorReview(nickname).orElse(null);
+
+        if (reviewList == null || reviewList.isEmpty()) {
+            return new ReviewDTO();
+        }
+
+        // 리뷰 타입이 INSTRUCTOR이고, reviewId가 일치하는 리뷰 필터링
+        return reviewList.stream()
+                .filter(review -> review.getReviewType() == ReviewType.INSTRUCTOR && review.getReviewId().equals(reviewId))
+                .findFirst() // 첫 번째 일치하는 리뷰 찾기
+                .map(review -> ReviewDTO.builder()
+                        .reviewId(review.getReviewId())
+                        .reviewName(review.getReviewName())
+                        .reviewDetail(review.getReviewDetail())
+                        .rating(review.getRating())
+                        .reviewType(review.getReviewType())
+                        .reviewUpdatedDate(review.getReviewUpdatedDate())
+                        .writerId(review.getMember().getMemberId())
+                        .courseName(review.getCourse().getCourseName())
+                        .courseId(review.getCourse().getCourseId())
+                        .nickname(nickname)
+                        .writerName(review.getMember().getNickname())
+                        .build())
+                .orElse(null); // 조건에 맞는 리뷰가 없을 경우 null 반환
+    }
+
+    public ReviewDTO readReview(Long courseId, Long reviewId) {
+        List<Review> reviewList = reviewRepository.getCourseReview(courseId).orElse(null);
+
+        if (reviewList == null || reviewList.isEmpty()) {
+            return new ReviewDTO();
+        }
+
+        // 리뷰 타입이 COURSE이고, reviewId가 일치하는 리뷰 필터링
+        ReviewDTO reviewDTO = reviewList.stream()
+                .filter(review -> review.getReviewType() == ReviewType.COURSE && review.getReviewId().equals(reviewId))
+                .findFirst() // 첫 번째 일치하는 리뷰 찾기
+                .map(review -> ReviewDTO.builder()
+                        .reviewId(review.getReviewId())
+                        .reviewName(review.getReviewName())
+                        .reviewDetail(review.getReviewDetail())
+                        .rating(review.getRating())
+                        .reviewType(review.getReviewType())
+                        .reviewUpdatedDate(review.getReviewUpdatedDate())
+                        .writerId(review.getMember().getMemberId())
+                        .courseName(review.getCourse().getCourseName())
+                        .courseId(courseId)
+                        .nickname(review.getCourse().getMember().getNickname())
+                        .writerName(review.getMember().getNickname())
+                        .build())
+                .orElse(null);// 조건에 맞는 리뷰가 없을 경우 null 반환
+        System.out.println(reviewDTO);
+        return reviewDTO;
+    }
+
+
 }

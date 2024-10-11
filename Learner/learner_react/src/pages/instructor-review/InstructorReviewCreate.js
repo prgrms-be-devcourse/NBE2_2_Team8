@@ -28,8 +28,10 @@ const InstructorReviewCreate = () => {
                 const response = await fetch("http://localhost:8080/course/list"); // 강의 목록 API 엔드포인트
                 if (!response.ok) throw new Error("강의 목록을 가져오는 데 실패했습니다.");
                 const data = await response.json();
-                console.log(data); // 데이터 확인
-                setCourses(data);
+                console.log(data)
+                const filteredCourses = data.filter(course => course.memberNickname === nickname);
+                console.log(filteredCourses); // 데이터 확인
+                setCourses(filteredCourses);
             } catch (error) {
                 console.error(error);
                 alert("강의 목록을 가져오는 중 오류가 발생했습니다.");
