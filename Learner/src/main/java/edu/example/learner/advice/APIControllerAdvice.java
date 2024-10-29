@@ -44,7 +44,7 @@ public class APIControllerAdvice {
     //Login 예외처리
     @ExceptionHandler(LoginTaskException.class)
     public ResponseEntity<?> handleLoginException(LoginTaskException e) {
-        log.info("--- MemberTaskException");
+        log.info("--- LoginTaskException");
         log.info("--- e.getClass().getName() : " + e.getClass().getName());
         log.info("--- e.getMessage() : " + e.getMessage());
 
@@ -56,7 +56,7 @@ public class APIControllerAdvice {
 
     @ExceptionHandler(ReviewTaskException.class)
     public ResponseEntity<?> handleLoginException(ReviewTaskException e) {
-        log.info("--- MemberTaskException");
+        log.info("--- ReviewTaskException");
         log.info("--- e.getClass().getName() : " + e.getClass().getName());
         log.info("--- e.getMessage() : " + e.getMessage());
 
